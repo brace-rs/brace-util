@@ -6,3 +6,10 @@ description = "A set of common utilities for the brace framework."
 repository = "https://github.com/brace-rs/brace-util"
 license = "MIT OR Apache-2.0"
 edition = "2018"
+
+[features]
+default = ["future"]
+future = ["brace-util-future"]
+
+[dependencies]
+brace-util-future = { path = "../brace-util-future", optional = true }

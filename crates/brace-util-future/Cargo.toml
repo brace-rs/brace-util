@@ -1,0 +1,11 @@
+[package]
+name = "brace-util-future"
+version = "0.1.0"
+authors = ["Daniel Balcomb <daniel.balcomb@gmail.com>"]
+description = "Future utilities for the brace framework."
+repository = "https://github.com/brace-rs/brace-util"
+license = "MIT OR Apache-2.0"
+edition = "2018"
+
+[dev-dependencies]
+tokio = { version = "0.2", features = ["rt-core", "macros"] }

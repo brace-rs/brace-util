@@ -7,5 +7,9 @@ repository = "https://github.com/brace-rs/brace-util"
 license = "MIT OR Apache-2.0"
 edition = "2018"
 
+[dependencies]
+futures = "0.3"
+
 [dev-dependencies]
 tokio = { version = "0.2", features = ["rt-core", "macros"] }
+futures-timer = "3.0"

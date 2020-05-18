@@ -15,8 +15,9 @@ impl<'a, T> FutureStream<'a, T> {
     where
         F: Future<Output = S> + 'a,
         S: Stream<Item = T> + 'a,
+        T: 'a,
     {
-        Self::Future(Box::pin(future.map(|stream| Self::from_stream(stream))))
+        Self::Future(Box::pin(future.map(Self::from_stream)))
     }
 
     pub fn from_stream<S>(stream: S) -> Self

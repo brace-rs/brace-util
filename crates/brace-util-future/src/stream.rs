@@ -11,16 +11,16 @@ pub enum FutureStream<'a, T> {
 }
 
 impl<'a, T> FutureStream<'a, T> {
-    pub fn from_future<F, S>(future: F) -> Self
+    pub fn future<F, S>(future: F) -> Self
     where
         F: Future<Output = S> + 'a,
         S: Stream<Item = T> + 'a,
         T: 'a,
     {
-        Self::Future(Box::pin(future.map(Self::from_stream)))
+        Self::Future(Box::pin(future.map(Self::stream)))
     }
 
-    pub fn from_stream<S>(stream: S) -> Self
+    pub fn stream<S>(stream: S) -> Self
     where
         S: Stream<Item = T> + 'a,
     {
@@ -59,8 +59,8 @@ mod tests {
     use super::FutureStream;
 
     #[tokio::test]
-    async fn test_future_stream_from_future() {
-        let mut stream = FutureStream::from_future(async {
+    async fn test_future() {
+        let mut stream = FutureStream::future(async {
             Delay::new(Duration::from_millis(100)).await;
 
             iter(vec!["a", "b", "c"])
@@ -73,8 +73,8 @@ mod tests {
     }
 
     #[tokio::test]
-    async fn test_future_stream_from_stream() {
-        let mut stream = FutureStream::from_stream(iter(vec!["d", "e", "f"]));
+    async fn test_stream() {
+        let mut stream = FutureStream::stream(iter(vec!["d", "e", "f"]));
 
         assert_eq!(stream.next().await, Some("d"));
         assert_eq!(stream.next().await, Some("e"));

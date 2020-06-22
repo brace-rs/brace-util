@@ -28,6 +28,12 @@ impl<'a, T, E> FutureResult<'a, T, E> {
     }
 }
 
+impl<'a, E> FutureResult<'a, (), E> {
+    pub fn done() -> Self {
+        Self::ok(())
+    }
+}
+
 impl<'a, T, E> Future for FutureResult<'a, T, E> {
     type Output = Result<T, E>;
 
@@ -85,5 +91,13 @@ mod tests {
         let result = future.await;
 
         assert_eq!(result, Ok("future"));
+    }
+
+    #[tokio::test]
+    async fn test_done() {
+        let future = FutureResult::<(), Error>::done();
+        let result = future.await;
+
+        assert_eq!(result, Ok(()));
     }
 }
